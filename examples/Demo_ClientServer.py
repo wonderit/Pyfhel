@@ -8,14 +8,20 @@ Context Parameters shows how several parameters affect performance.
 from Pyfhel import Pyfhel, PyPtxt, PyCtxt
 import tempfile
 from pathlib import Path
+import os
 
 # Using a temporary dir as a "secure channel"
 # This can be changed into real communication using other python libraries.
-secure_channel = tempfile.TemporaryDirectory()
-sec_con = Path(secure_channel.name)
+# secure_channel = tempfile.TemporaryDirectory()
+
+sec_con = Path(os.getcwd()) / 'tmp'
+secure_channel = Path(sec_con)
+
+if not os.path.isdir(sec_con):
+    os.mkdir(sec_con)
 pk_file = sec_con / "mypk.pk"
 contx_file = sec_con / "mycontx.con"
-
+print(pk_file, contx_file)
 
 ##### CLIENT
 #HE Object Creation, including the public and private keys
@@ -77,7 +83,7 @@ print(c_res.decrypt())
 
 
 # Cleaning up secure channel
-secure_channel.cleanup()
+# secure_channel.cleanup()
 
 
 

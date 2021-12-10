@@ -16,6 +16,8 @@ from Pyfhel import Pyfhel, PyPtxt, PyCtxt
 # PyPtxt is the plaintext class
 # PyCtxt is the ciphertext class
 
+from pathlib import Path
+import os
 
 print("==============================================================")
 print("=================== Pyfhel SaveRestore FILES =================")
@@ -31,7 +33,13 @@ HE.relinKeyGen(60, 4)
 
 
 print("2. Save all keys into temporary strings")
-tmp_dir = tempfile.TemporaryDirectory()
+# tmp_dir = tempfile.TemporaryDirectory()
+
+tmp_dir = Path(os.getcwd()) / 'tmp_keyrestore'
+
+if not os.path.isdir(tmp_dir):
+    os.mkdir(tmp_dir)
+
 HE.saveContext(tmp_dir.name + "/context")
 HE.savepublicKey(tmp_dir.name + "/pub.key")
 HE.savesecretKey(tmp_dir.name + "/sec.key")
@@ -64,7 +72,7 @@ assert HE2.decryptInt(ctxt_restored)==42, "decrypting ciphertext should work"
 
 
 # Cleaning up secure channel
-tmp_dir.cleanup()
+# tmp_dir.cleanup()
 
 
 
